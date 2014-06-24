@@ -17,9 +17,9 @@ public class MainActivity extends ActionBarActivity {
     private Button mDealButton;
     private Button mHitButton;
     private Button mStandButton;
-    private Hand mPlayerHand;
-    private Hand mDealerHand;
-    private int mPlayerHandValue;
+    private BlackjackHand mPlayerHand;
+    private BlackjackHand mDealerHand;
+    //private int mPlayerHandValue;
     private Deck mDeck;
 
     @Override
@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity {
         mDeck = new Deck();
         mDeck.shuffle();
 
-        mPlayerHandValue = 0;
+        //mPlayerHandValue = 0;
         dealt = false;
 
         mDealButton = (Button) findViewById(R.id.deal_button);
@@ -54,16 +54,36 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View view) {
                 mPlayerHand.addCard(mDeck.dealCard());
                 Log.d(TAG, "Player: " + mPlayerHand.getCard(mPlayerHand.getCardCount() - 1).getValueAsString() + " of " + mPlayerHand.getCard(mPlayerHand.getCardCount() - 1).getSuitAsString() + " dealt.");
-                mPlayerHandValue += mPlayerHand.getCard(mPlayerHand.getCardCount() - 1).getValue();
 
-                Log.d(TAG, "Hand Value: " + mPlayerHandValue);
+                Log.d(TAG, "Hand Value: " + mPlayerHand.getBlackjackValue());
 
-                if (mPlayerHandValue == 21) {
-                    Toast.makeText(MainActivity.this, "21!", Toast.LENGTH_SHORT);
+                if (mPlayerHand.getBlackjackValue() == 21) {
+                    //Log.i(TAG, "21!");
+                    dealt = false;
+                    Toast.makeText(MainActivity.this, "21!", Toast.LENGTH_SHORT).show();
                 }
 
-                if (mPlayerHandValue > 21) {
-                    Toast.makeText(MainActivity.this, "Busted!", Toast.LENGTH_SHORT);
+                if (mPlayerHand.getBlackjackValue() > 21) {
+                    //Log.i(TAG, "You busted!");
+                    dealt = false;
+                    Toast.makeText(MainActivity.this, "Busted!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        mStandButton = (Button) findViewById(R.id.stand_button);
+        mStandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mPlayerHand != null) {
+                    if (mPlayerHand.getBlackjackValue() > mDealerHand.getBlackjackValue()) {
+                        Toast.makeText(MainActivity.this, "You Won!", Toast.LENGTH_SHORT).show();
+                        dealt = false;
+                    }
+                    else {
+                        Toast.makeText(MainActivity.this, "You lose.", Toast.LENGTH_SHORT).show();
+                        dealt = false;
+                    }
                 }
             }
         });
@@ -91,15 +111,23 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void dealHand() {
-        mPlayerHand = new Hand();
-        mDealerHand = new Hand();
+
+        if (mPlayerHand == null)
+            mPlayerHand = new BlackjackHand();
+        else
+            mPlayerHand.clear();
+
+        if (mDealerHand == null)
+            mDealerHand = new BlackjackHand();
+        else
+            mDealerHand.clear();
 
         mPlayerHand.addCard(mDeck.dealCard());
         Log.d(TAG, "Player: " + mPlayerHand.getCard(0).getValueAsString() + " of " + mPlayerHand.getCard(0).getSuitAsString() + " dealt.");
-        mPlayerHandValue += mPlayerHand.getCard(mPlayerHand.getCardCount() - 1).getValue();
+
         mPlayerHand.addCard(mDeck.dealCard());
         Log.d(TAG, "Player: " + mPlayerHand.getCard(1).getValueAsString() + " of " + mPlayerHand.getCard(1).getSuitAsString() + " dealt.");
-        mPlayerHandValue += mPlayerHand.getCard(mPlayerHand.getCardCount() - 1).getValue();
+
 
         mDealerHand.addCard(mDeck.dealCard());
         Log.d(TAG, "Dealer: " + mDealerHand.getCard(0).getValueAsString() + " of " + mDealerHand.getCard(0).getSuitAsString() + " dealt.");
