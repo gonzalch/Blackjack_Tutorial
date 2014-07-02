@@ -43,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
                 }
 
                 else {
-                    Toast.makeText(MainActivity.this, "You've already dealt!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "You've already dealt", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -66,7 +66,7 @@ public class MainActivity extends ActionBarActivity {
                 if (mPlayerHand.getBlackjackValue() > 21) {
                     //Log.i(TAG, "You busted!");
                     dealt = false;
-                    Toast.makeText(MainActivity.this, "Busted!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Busted", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -80,8 +80,14 @@ public class MainActivity extends ActionBarActivity {
                         Toast.makeText(MainActivity.this, "You Won!", Toast.LENGTH_SHORT).show();
                         dealt = false;
                     }
+
+                    else if (mPlayerHand.getBlackjackValue() == mDealerHand.getBlackjackValue()) {
+                        Toast.makeText(MainActivity.this, "Push", Toast.LENGTH_SHORT).show();
+                        dealt = false;
+                    }
+
                     else {
-                        Toast.makeText(MainActivity.this, "You lose.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "You lose", Toast.LENGTH_SHORT).show();
                         dealt = false;
                     }
                 }
