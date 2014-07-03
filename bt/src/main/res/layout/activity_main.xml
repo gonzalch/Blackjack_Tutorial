@@ -1,31 +1,65 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical" >
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layer0">
 
-    <LinearLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="43dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Dealer's Hand"
+        android:id="@+id/dealer_title" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="140dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/dealer_hand"
+        android:text="Cards Go Here" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Player's Hand"
+        android:id="@+id/player_title" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/player_hand"
+        android:layout_gravity="center_vertical"
+        android:text="Cards go here." />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/layer1">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Deal"
             android:id="@+id/deal_button"
-            android:text="Deal" />
+            android:layout_gravity="bottom" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/hit_button"
-        android:text="Hit Me" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hit"
+            android:id="@+id/hit_button"
+            android:layout_gravity="bottom" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/stand_button"
-        android:text="Stand"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stand"
+            android:id="@+id/stand_button"
+            android:layout_gravity="bottom" />
 
     </LinearLayout>
 

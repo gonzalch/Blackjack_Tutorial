@@ -56,7 +56,7 @@ public class Hand {
         // not the position number of a card in the hand, then null
         // is returned.
         if (position >= 0 && position < hand.size())
-            return (Card)hand.elementAt(position);
+            return (Card) hand.elementAt(position);
         else
             return null;
     }
@@ -68,11 +68,11 @@ public class Hand {
         Vector newHand = new Vector();
         while (hand.size() > 0) {
             int pos = 0;  // Position of minimal card.
-            Card c = (Card)hand.elementAt(0);  // Minimal card.
+            Card c = (Card) hand.elementAt(0);  // Minimal card.
             for (int i = 1; i < hand.size(); i++) {
-                Card c1 = (Card)hand.elementAt(i);
-                if ( c1.getSuit() < c.getSuit() ||
-                        (c1.getSuit() == c.getSuit() && c1.getValue() < c.getValue()) ) {
+                Card c1 = (Card) hand.elementAt(i);
+                if (c1.getSuit() < c.getSuit() ||
+                        (c1.getSuit() == c.getSuit() && c1.getValue() < c.getValue())) {
                     pos = i;
                     c = c1;
                 }
@@ -90,19 +90,29 @@ public class Hand {
         Vector newHand = new Vector();
         while (hand.size() > 0) {
             int pos = 0;  // Position of minimal card.
-            Card c = (Card)hand.elementAt(0);  // Minumal card.
+            Card c = (Card) hand.elementAt(0);  // Minumal card.
             for (int i = 1; i < hand.size(); i++) {
-                Card c1 = (Card)hand.elementAt(i);
-                if ( c1.getValue() < c.getValue() ||
-                        (c1.getValue() == c.getValue() && c1.getSuit() < c.getSuit()) ) {
+                Card c1 = (Card) hand.elementAt(i);
+                if (c1.getValue() < c.getValue() ||
+                        (c1.getValue() == c.getValue() && c1.getSuit() < c.getSuit())) {
                     pos = i;
                     c = c1;
                 }
             }
-            hand.removeElementAt(pos);
-            newHand.addElement(c);
         }
-        hand = newHand;
     }
 
+    public String getHandAsString(){
+        // Used to return the entire hand in a shorthand notation.
+        // Example) 10 of Queens becomes 10Q
+        StringBuffer s = new StringBuffer("");
+
+        for( int i=0; i<hand.size(); i++)
+        {
+            Card c = (Card)hand.elementAt(i);
+            s.append(c.toTruncatedString());
+            s.append(" ");
+        }
+    return s.toString();
+    }
 }
