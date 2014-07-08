@@ -59,23 +59,25 @@ public class MainActivity extends ActionBarActivity {
         mHitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPlayerHand.addCard(mDeck.dealCard());
-                Log.d(TAG, "Player: " + mPlayerHand.getCard(mPlayerHand.getCardCount() - 1).getValueAsString() + " of " + mPlayerHand.getCard(mPlayerHand.getCardCount() - 1).getSuitAsString() + " dealt.");
+                if (dealt) {
+                    mPlayerHand.addCard(mDeck.dealCard());
+                    Log.d(TAG, "Player: " + mPlayerHand.getCard(mPlayerHand.getCardCount() - 1).getValueAsString() + " of " + mPlayerHand.getCard(mPlayerHand.getCardCount() - 1).getSuitAsString() + " dealt.");
 
-                Log.d(TAG, "Hand Value: " + mPlayerHand.getBlackjackValue());
+                    Log.d(TAG, "Hand Value: " + mPlayerHand.getBlackjackValue());
 
-                mPlayerHandText.setText(mPlayerHand.getHandAsString());
+                    mPlayerHandText.setText(mPlayerHand.getHandAsString());
 
-                if (mPlayerHand.getBlackjackValue() == 21) {
-                    //Log.i(TAG, "21!");
-                    dealt = false;
-                    Toast.makeText(MainActivity.this, "21!", Toast.LENGTH_SHORT).show();
-                }
+                    if (mPlayerHand.getBlackjackValue() == 21) {
+                        //Log.i(TAG, "21!");
+                        dealt = false;
+                        Toast.makeText(MainActivity.this, "21!", Toast.LENGTH_SHORT).show();
+                    }
 
-                if (mPlayerHand.getBlackjackValue() > 21) {
-                    //Log.i(TAG, "You busted!");
-                    dealt = false;
-                    Toast.makeText(MainActivity.this, "Busted", Toast.LENGTH_SHORT).show();
+                    if (mPlayerHand.getBlackjackValue() > 21) {
+                        //Log.i(TAG, "You busted!");
+                        dealt = false;
+                        Toast.makeText(MainActivity.this, "Busted", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
