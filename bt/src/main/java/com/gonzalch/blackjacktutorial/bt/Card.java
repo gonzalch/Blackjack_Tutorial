@@ -85,5 +85,19 @@ public class Card {
         return getValueAsString() + " of " + getSuitAsString();
     }
 
+    public String toTruncatedString() {
+        // Return a String representation of this card, such as
+        // "10H" or "QS".
+        StringBuilder s;
+        if(getValueAsString() ==  "10" ) {
+            s = new StringBuilder().append(getValueAsString()).append(getSuitAsString().charAt(0));
+        }
+        else{
+            s = new StringBuilder().append( getValueAsString().charAt(0)).append(getSuitAsString().charAt(0));
+        }
+
+        return s.toString();
+    }
+
 
 } // end class Card
