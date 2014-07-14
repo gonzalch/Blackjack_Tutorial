@@ -115,4 +115,28 @@ public class Hand {
         }
     return s.toString();
     }
+
+    public Vector getHandValue(){
+        Vector handValues = new Vector();
+        int handValue = 0;
+        handValues.add(handValue);
+
+        for(int i=0; i<hand.size(); i++)
+        {
+            for(int j=0; j<handValues.size(); j++)
+            {
+                Card c = (Card)hand.elementAt(i);
+                handValue = handValue +c.getValue();
+                if(c.getValueAsString() == "Ace")
+                {
+                    int newValue = handValue + 10;
+                    if( newValue < 22 )
+                    {
+                        handValues.add(newValue);
+                    }
+                }
+            }
+        }
+        return handValues;
+    }
 }

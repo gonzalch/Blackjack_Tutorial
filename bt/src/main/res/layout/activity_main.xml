@@ -61,6 +61,20 @@
             android:id="@+id/stand_button"
             android:layout_gravity="bottom" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Double"
+            android:id="@+id/double_button"
+            android:layout_gravity="bottom" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Split"
+            android:id="@+id/split_button"
+            android:layout_gravity="bottom" />
+
     </LinearLayout>
 
 </LinearLayout>

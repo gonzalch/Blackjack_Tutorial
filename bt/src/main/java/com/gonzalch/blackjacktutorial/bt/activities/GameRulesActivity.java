@@ -5,7 +5,7 @@
     This activity runs when the player would like to alter the house Blackjack rules.
 */
 
-package com.gonzalch.blackjacktutorial.bt;
+package com.gonzalch.blackjacktutorial.bt.activities;
 
 
 import android.os.Bundle;
