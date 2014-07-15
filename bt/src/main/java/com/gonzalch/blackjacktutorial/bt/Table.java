@@ -77,4 +77,13 @@ public class Table {
     {
         return gameOver;
     }
+
+    public void playerStands(){
+
+    }
+
+    public String getPlayersTotalAsString()
+    {
+        return player.getHandTotalAsString();
+    }
 }

@@ -26,14 +26,24 @@ public class Card {
     //    SPADES, HEARTS, DIAMONDS, CLUBS.
 
     private final int value;  // The value of this card, from 1 to 11.
+    private final int index;
 
     public Card(int theValue, int theSuit) {
         // Construct a card with the specified value and suit.
         // Value must be between 1 and 13.  Suit must be between
         // 0 and 3.  If the parameters are outside these ranges,
         // the constructed card object will be invalid.
-        value = theValue;
+        index = theValue;
         suit = theSuit;
+        switch(index)
+        {
+            case 1:                 value=11; break;
+            case 11:      value=10; break;
+            case 12:      value=10; break;
+            case 13:      value=10; break;
+            default:                value = theValue; break;
+        }
+
     }
 
     public int getSuit() {
@@ -61,7 +71,7 @@ public class Card {
     public String getValueAsString() {
         // Return a String representing the card's value.
         // If the card's value is invalid, "??" is returned.
-        switch ( value ) {
+        switch ( index ) {
             case 1:   return "Ace";
             case 2:   return "2";
             case 3:   return "3";

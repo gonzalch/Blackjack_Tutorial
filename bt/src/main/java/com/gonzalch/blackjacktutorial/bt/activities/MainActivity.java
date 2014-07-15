@@ -18,6 +18,7 @@ import com.gonzalch.blackjacktutorial.bt.House;
 import com.gonzalch.blackjacktutorial.bt.Table;
 import com.gonzalch.blackjacktutorial.bt.Player;
 
+
 public class MainActivity extends ActionBarActivity {
 
     private static final int RESULT_RULES = 1;
@@ -33,6 +34,7 @@ public class MainActivity extends ActionBarActivity {
     private Button mDoubleButton;
     private TextView mDealerHandText;
     private TextView mPlayerHandText;
+    private TextView mPlayerTotalText;
 
     private BlackjackHand mPlayerHand;
     private BlackjackHand mDealerHand;
@@ -53,7 +55,7 @@ public class MainActivity extends ActionBarActivity {
         //dealt = false;
         mDealerHandText = (TextView) findViewById(R.id.dealer_hand);
         mPlayerHandText = (TextView) findViewById(R.id.player_hand);
-
+        mPlayerTotalText = (TextView) findViewById(R.id.player_total);
 
         mDealButton = (Button) findViewById(R.id.deal_button);
         mDealButton.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +69,9 @@ public class MainActivity extends ActionBarActivity {
                     mStandButton.setEnabled(true);
                     mDoubleButton.setEnabled(Table.classAInstance.canPlayerDouble());
                     mSplitButton.setEnabled(Table.classAInstance.canPlayerSplit());
-                }
+                    mPlayerTotalText.setText(Table.classAInstance.getPlayersTotalAsString());
+
+            }
         });
 
         mHitButton = (Button) findViewById(R.id.hit_button);
@@ -77,11 +81,11 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View view) {
                 Table.classAInstance.playerHit();
                 mPlayerHandText.setText(Table.classAInstance.getPlayerHand());
-                mHitButton.setEnabled(Table.classAInstance.gameOver());
+                mHitButton.setEnabled(!Table.classAInstance.gameOver());
                 mStandButton.setEnabled(!Table.classAInstance.gameOver());
                 mDoubleButton.setEnabled(Table.classAInstance.canPlayerDouble());
                 mSplitButton.setEnabled(Table.classAInstance.canPlayerSplit());
-
+                mPlayerTotalText.setText(Table.classAInstance.getPlayersTotalAsString());
 //                if (dealt) {
 //                    mPlayerHand.addCard(mDeck.dealCard());
 //                    Log.d(TAG, "Player: " + mPlayerHand.getCard(mPlayerHand.getCardCount() - 1).getValueAsString() + " of " + mPlayerHand.getCard(mPlayerHand.getCardCount() - 1).getSuitAsString() + " dealt.");
@@ -110,6 +114,7 @@ public class MainActivity extends ActionBarActivity {
         mStandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Table.classAInstance.playerHit();
 //                if (mPlayerHand != null) {
 //                    if (mPlayerHand.getBlackjackValue() > mDealerHand.getBlackjackValue()) {
 //                        Toast.makeText(MainActivity.this, "You Won!", Toast.LENGTH_SHORT).show();

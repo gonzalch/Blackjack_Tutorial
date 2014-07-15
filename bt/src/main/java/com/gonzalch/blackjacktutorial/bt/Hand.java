@@ -116,27 +116,27 @@ public class Hand {
     return s.toString();
     }
 
-    public Vector getHandValue(){
-        Vector handValues = new Vector();
+    public int getHandValue(){
         int handValue = 0;
-        handValues.add(handValue);
+        int numberOfAces = 0;
 
         for(int i=0; i<hand.size(); i++)
         {
-            for(int j=0; j<handValues.size(); j++)
+            Card c = (Card)hand.elementAt(i);
+            if( c.getValueAsString() == "Ace")
             {
-                Card c = (Card)hand.elementAt(i);
-                handValue = handValue +c.getValue();
-                if(c.getValueAsString() == "Ace")
-                {
-                    int newValue = handValue + 10;
-                    if( newValue < 22 )
-                    {
-                        handValues.add(newValue);
-                    }
-                }
+                numberOfAces++;
+            }
+            handValue = handValue + c.getValue();
+        }
+        if(numberOfAces>0 & handValue > 21)
+        {
+            while(handValue > 21 && numberOfAces>0 )
+            {
+                handValue = handValue-10;
+                numberOfAces--;
             }
         }
-        return handValues;
+        return handValue;
     }
 }

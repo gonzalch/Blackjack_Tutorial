@@ -23,15 +23,7 @@ public class Player {
 
     public void addCard(Card c){
         currentHand.addCard(c);
-        Vector v  = currentHand.getHandValue() ;
-        if(v.size()==1)
-        {
-            int value =  (Integer) v.elementAt(0);
-            if(21 < value)
-            {
-                busted = true;
-            }
-        }
+
     }
 
     public int getCardCount(){
@@ -45,5 +37,10 @@ public class Player {
     public boolean hasBusted()
     {
         return busted;
+    }
+
+    public String getHandTotalAsString()
+    {
+        return Integer.toString(currentHand.getHandValue());
     }
 }
