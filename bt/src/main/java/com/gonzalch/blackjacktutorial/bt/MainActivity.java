@@ -1,5 +1,6 @@
 package com.gonzalch.blackjacktutorial.bt;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,11 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 public class MainActivity extends ActionBarActivity {
+
+    private static final int RESULT_RULES = 1;
 
     private static final String TAG = "MainActivity";
     private Boolean dealt;
@@ -131,9 +134,15 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        int a = 0;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            case R.id.house_rules:
+                Intent intent = new Intent(this, GameRulesActivity.class);
+                startActivityForResult(intent, RESULT_RULES);
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -164,4 +173,5 @@ public class MainActivity extends ActionBarActivity {
         mPlayerHandText.setText(mPlayerHand.getHandAsString());
         mDealerHandText.setText(mDealerHand.getHandAsString());
     }
+
 }
