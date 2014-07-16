@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
     private TextView mDealerHandText;
     private TextView mPlayerHandText;
     private TextView mPlayerTotalText;
-
+    private TextView mDealersTotalText;
     private BlackjackHand mPlayerHand;
     private BlackjackHand mDealerHand;
     //private int mPlayerHandValue;
@@ -56,21 +56,27 @@ public class MainActivity extends ActionBarActivity {
         mDealerHandText = (TextView) findViewById(R.id.dealer_hand);
         mPlayerHandText = (TextView) findViewById(R.id.player_hand);
         mPlayerTotalText = (TextView) findViewById(R.id.player_total);
+        mDealersTotalText = (TextView) findViewById(R.id.dealer_total);
 
         mDealButton = (Button) findViewById(R.id.deal_button);
         mDealButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Table.classAInstance.startGame();
-                    mPlayerHandText.setText(Table.classAInstance.getPlayerHand());
-                    mDealerHandText.setText(Table.classAInstance.getDealerHand());
-                    mDealButton.setEnabled(false);
-                    mHitButton.setEnabled(true);
-                    mStandButton.setEnabled(true);
-                    mDoubleButton.setEnabled(Table.classAInstance.canPlayerDouble());
-                    mSplitButton.setEnabled(Table.classAInstance.canPlayerSplit());
-                    mPlayerTotalText.setText(Table.classAInstance.getPlayersTotalAsString());
+                Table.classAInstance.reset();
+                Table.classAInstance.startGame();
 
+                refresh();
+
+                if(Table.classAInstance.checkPlayerForBlackjack())
+                {
+                    Toast.makeText(MainActivity.this, "Blackjack!", Toast.LENGTH_SHORT).show();
+                    refresh();
+                }
+                else if(Table.classAInstance.checkDealerForBlackjack())
+                {
+                    Toast.makeText(MainActivity.this, "You lose - dealer blackjack", Toast.LENGTH_SHORT).show();
+                    refresh();
+                }
             }
         });
 
@@ -80,32 +86,14 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Table.classAInstance.playerHit();
-                mPlayerHandText.setText(Table.classAInstance.getPlayerHand());
-                mHitButton.setEnabled(!Table.classAInstance.gameOver());
-                mStandButton.setEnabled(!Table.classAInstance.gameOver());
-                mDoubleButton.setEnabled(Table.classAInstance.canPlayerDouble());
-                mSplitButton.setEnabled(Table.classAInstance.canPlayerSplit());
-                mPlayerTotalText.setText(Table.classAInstance.getPlayersTotalAsString());
-//                if (dealt) {
-//                    mPlayerHand.addCard(mDeck.dealCard());
-//                    Log.d(TAG, "Player: " + mPlayerHand.getCard(mPlayerHand.getCardCount() - 1).getValueAsString() + " of " + mPlayerHand.getCard(mPlayerHand.getCardCount() - 1).getSuitAsString() + " dealt.");
-//
-//                    Log.d(TAG, "Hand Value: " + mPlayerHand.getBlackjackValue());
-//
-//                    mPlayerHandText.setText(mPlayerHand.getHandAsString());
-//
-//                    if (mPlayerHand.getBlackjackValue() == 21) {
-//                        //Log.i(TAG, "21!");
-//                        dealt = false;
-//                        Toast.makeText(MainActivity.this, "21!", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    if (mPlayerHand.getBlackjackValue() > 21) {
-//                        //Log.i(TAG, "You busted!");
-//                        dealt = false;
-//                        Toast.makeText(MainActivity.this, "Busted", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
+                refresh();
+
+                if( Table.classAInstance.playerBusted())
+                {
+                    Toast.makeText(MainActivity.this, "Busted!", Toast.LENGTH_SHORT).show();
+                    refresh();
+                    Table.classAInstance.reset();
+                }
             }
         });
 
@@ -114,23 +102,18 @@ public class MainActivity extends ActionBarActivity {
         mStandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Table.classAInstance.playerHit();
-//                if (mPlayerHand != null) {
-//                    if (mPlayerHand.getBlackjackValue() > mDealerHand.getBlackjackValue()) {
-//                        Toast.makeText(MainActivity.this, "You Won!", Toast.LENGTH_SHORT).show();
-//                        dealt = false;
-//                    }
-//
-//                    else if (mPlayerHand.getBlackjackValue() == mDealerHand.getBlackjackValue()) {
-//                        Toast.makeText(MainActivity.this, "Push", Toast.LENGTH_SHORT).show();
-//                        dealt = false;
-//                    }
-//
-//                    else {
-//                        Toast.makeText(MainActivity.this, "You lose", Toast.LENGTH_SHORT).show();
-//                        dealt = false;
-//                    }
-//                }
+                Table.classAInstance.playerStands();
+                refresh();
+                 if ( Table.classAInstance.checkForTie()) {
+                    Toast.makeText(MainActivity.this, "Push", Toast.LENGTH_SHORT).show();
+                    refresh();
+                } else if (Table.classAInstance.playerWon()) {
+                    Toast.makeText(MainActivity.this, "You win", Toast.LENGTH_SHORT).show();
+                    refresh();
+                } else {
+                    Toast.makeText(MainActivity.this, "You lose", Toast.LENGTH_SHORT).show();
+                    refresh();
+                }
             }
         });
         mDoubleButton = (Button) findViewById(R.id.double_button);
@@ -177,5 +160,22 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    /*
+     *  Check the table instance for updates to the state of the game.
+     */
+    private void refresh()
+    {
+
+        mDealersTotalText.setText(Table.classAInstance.getDealersTotalAsString());
+        mDealerHandText.setText(Table.classAInstance.getDealerHand());
+        mPlayerTotalText.setText(Table.classAInstance.getPlayersTotalAsString());
+        mPlayerHandText.setText(Table.classAInstance.getPlayerHand());
+        mDealButton.setEnabled(!Table.classAInstance.isGameInProgress());
+        mHitButton.setEnabled(Table.classAInstance.isGameInProgress());
+        mStandButton.setEnabled(Table.classAInstance.isGameInProgress());
+        mDoubleButton.setEnabled(Table.classAInstance.canPlayerDouble());
+        mSplitButton.setEnabled(Table.classAInstance.canPlayerSplit());
+    }
+
 
 }

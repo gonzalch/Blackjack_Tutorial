@@ -2,7 +2,10 @@ package com.gonzalch.blackjacktutorial.bt;
 
 /**
  * Created by alex on 7/14/2014.
+ *
+ * Class used to control the rules of the game.
  */
+
 public class Rules {
     public static Rules classAInstance = new Rules();
 
