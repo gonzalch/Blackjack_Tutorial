@@ -87,20 +87,31 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 if (mPlayerHand != null) {
+
+                    // Dealer hits until hard 17.
+                    while (mDealerHand.getBlackjackValue() < 17) {
+                        mDealerHand.addCard(mDeck.dealCard());
+                        //if ()
+                    }
+
+                    // Check if player hand value is greater than dealer hand value.
                     if (mPlayerHand.getBlackjackValue() > mDealerHand.getBlackjackValue()) {
                         Toast.makeText(MainActivity.this, "You Won!", Toast.LENGTH_SHORT).show();
                         dealt = false;
                     }
 
+                    // Check for push.
                     else if (mPlayerHand.getBlackjackValue() == mDealerHand.getBlackjackValue()) {
                         Toast.makeText(MainActivity.this, "Push", Toast.LENGTH_SHORT).show();
                         dealt = false;
                     }
 
+                    // Player hand must be less, player loses.
                     else {
                         Toast.makeText(MainActivity.this, "You lose", Toast.LENGTH_SHORT).show();
                         dealt = false;
                     }
+
                 }
             }
         });
@@ -144,8 +155,6 @@ public class MainActivity extends ActionBarActivity {
 
         mPlayerHand.addCard(mDeck.dealCard());
         Log.d(TAG, "Player: " + mPlayerHand.getCard(1).getValueAsString() + " of " + mPlayerHand.getCard(1).getSuitAsString() + " dealt.");
-
-
 
         mDealerHand.addCard(mDeck.dealCard());
         Log.d(TAG, "Dealer: " + mDealerHand.getCard(0).getValueAsString() + " of " + mDealerHand.getCard(0).getSuitAsString() + " dealt.");

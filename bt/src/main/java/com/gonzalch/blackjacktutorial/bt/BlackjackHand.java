@@ -34,6 +34,8 @@ public class BlackjackHand extends Hand {
             if (cardVal > 10) {
                 cardVal = 10;   // For a Jack, Queen, or King.
             }
+            // Only check for aces if dealer is not hitting.
+            // if (cardVal == 1 && !dealerHit) {
             if (cardVal == 1) {
                 ace = true;     // There is at least one ace.
             }
@@ -47,6 +49,8 @@ public class BlackjackHand extends Hand {
 
         if ( ace == true  &&  val + 10 <= 21 )
             val = val + 10;
+
+
 
         return val;
 
