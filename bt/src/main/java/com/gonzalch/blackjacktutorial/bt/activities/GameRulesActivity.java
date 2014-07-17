@@ -8,9 +8,12 @@
 package com.gonzalch.blackjacktutorial.bt.activities;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
+
 import com.gonzalch.blackjacktutorial.bt.R;
 
 public class GameRulesActivity extends PreferenceActivity {
@@ -20,6 +23,5 @@ public class GameRulesActivity extends PreferenceActivity {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.game_rules);
-
     }
 }

@@ -176,6 +176,4 @@ public class MainActivity extends ActionBarActivity {
         mDoubleButton.setEnabled(Table.classAInstance.canPlayerDouble());
         mSplitButton.setEnabled(Table.classAInstance.canPlayerSplit());
     }
-
-
 }

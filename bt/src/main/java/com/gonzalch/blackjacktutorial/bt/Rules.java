@@ -1,5 +1,7 @@
 package com.gonzalch.blackjacktutorial.bt;
 
+import android.content.SharedPreferences;
+
 /**
  * Created by alex on 7/14/2014.
  *

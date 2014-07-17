@@ -16,12 +16,16 @@ public class Deck {
 
     public Deck() {
         // Create an unshuffled deck of cards.
-        deck = new Card[52];
+        // Checks for number of decks being used and creates appropriate sized deck.
+        deck = new Card[52*Rules.classAInstance.numberOfDecks];
         int cardCt = 0; // How many cards have been created so far.
-        for ( int suit = 0; suit <= 3; suit++ ) {
-            for ( int value = 1; value <= 13; value++ ) {
-                deck[cardCt] = new Card(value,suit);
-                cardCt++;
+        for (int numDecks = 0; numDecks < Rules.classAInstance.numberOfDecks; numDecks++) {
+            for (int suit = 0; suit <= 3; suit++) {
+                for (int value = 1; value <= 13; value++) {
+                    // Passes in cardCt to act as index.
+                    deck[cardCt] = new Card(value, suit, cardCt);
+                    cardCt++;
+                }
             }
         }
         cardsUsed = 0;
