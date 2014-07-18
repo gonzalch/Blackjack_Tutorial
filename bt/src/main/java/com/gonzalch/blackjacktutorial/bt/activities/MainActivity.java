@@ -3,7 +3,6 @@ package com.gonzalch.blackjacktutorial.bt.activities;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,13 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gonzalch.blackjacktutorial.bt.BlackjackGame;
 import com.gonzalch.blackjacktutorial.bt.BlackjackHand;
 import com.gonzalch.blackjacktutorial.bt.Deck;
 import com.gonzalch.blackjacktutorial.bt.R;
 import com.gonzalch.blackjacktutorial.bt.House;
 import com.gonzalch.blackjacktutorial.bt.Table;
-import com.gonzalch.blackjacktutorial.bt.Player;
-
 
 public class MainActivity extends ActionBarActivity {
 
@@ -149,14 +147,18 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int a = 0;
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_settings:
                 return true;
             case R.id.house_rules:
-                Intent intent = new Intent(this, GameRulesActivity.class);
+                intent = new Intent(this, GameRulesActivity.class);
                 startActivityForResult(intent, RESULT_RULES);
                 break;
-
+            case R.id.blackjack_table:
+                intent = new Intent(this, BlackjackTableActivity.class);
+                startActivityForResult(intent, RESULT_RULES);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

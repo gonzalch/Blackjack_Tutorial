@@ -1,17 +1,44 @@
 package com.gonzalch.blackjacktutorial.bt.activities;
 
+import android.app.ActionBar;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Display;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Point;
+import android.graphics.Paint;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+
+/*
+ *  Cards are of size 72 x 96 pixels.  Hidden dealer cards are 12 x 96 pixels
+ */
+
+
 import com.gonzalch.blackjacktutorial.bt.R;
 
 public class BlackjackTableActivity extends ActionBarActivity {
+    private static final String TAG = "Table View";
+
+    ImageView playerCard0;
+    ImageView playerCard1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blackjack_table);
+
+        
+
     }
 
 
@@ -32,5 +59,17 @@ public class BlackjackTableActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getScreenDemensions()
+    {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int screenHeight = size.x;
+        int screenWidth = size.y;
+
+        Log.d(TAG, "Screen width: " + screenWidth);
+        Log.d(TAG, "Screen height: " + screenHeight);
     }
 }
