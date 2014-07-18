@@ -26,21 +26,22 @@ public class Card {
     //    SPADES, HEARTS, DIAMONDS, CLUBS.
 
     private final int value;  // The value of this card, from 1 to 11.
-    private final int index;
+    private final int index;  // Index of this card, from 0 to 51.
 
-    public Card(int theValue, int theSuit) {
-        // Construct a card with the specified value and suit.
+    public Card(int theValue, int theSuit, int theIndex) {
+        // Construct a card with the specified value, suit, and index.
         // Value must be between 1 and 13.  Suit must be between
-        // 0 and 3.  If the parameters are outside these ranges,
-        // the constructed card object will be invalid.
-        index = theValue;
+        // 0 and 3. Index must be between 0 and 51. If the parameters are outside
+        // these ranges, the constructed card object will be invalid.
         suit = theSuit;
-        switch(index)
+        index = theIndex;
+
+        switch ( (index + 1) % 13 )
         {
             case 1:                 value=11; break;
             case 11:      value=10; break;
             case 12:      value=10; break;
-            case 13:      value=10; break;
+            case 0:      value=10; break;
             default:                value = theValue; break;
         }
 
@@ -54,6 +55,11 @@ public class Card {
     public int getValue() {
         // Return the int that codes for this card's value.
         return value;
+    }
+
+    public int getIndex() {
+        // Return the int that codes for this card's index.
+        return index;
     }
 
     public String getSuitAsString() {
@@ -71,7 +77,7 @@ public class Card {
     public String getValueAsString() {
         // Return a String representing the card's value.
         // If the card's value is invalid, "??" is returned.
-        switch ( index ) {
+        switch ( (index + 1) % 13 ) {
             case 1:   return "Ace";
             case 2:   return "2";
             case 3:   return "3";
@@ -84,7 +90,7 @@ public class Card {
             case 10:  return "10";
             case 11:  return "Jack";
             case 12:  return "Queen";
-            case 13:  return "King";
+            case 0:  return "King";
             default:  return "??";
         }
     }

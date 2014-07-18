@@ -14,6 +14,15 @@
 
     <TextView
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dealer Total"
+        android:id="@+id/dealer_total"
+        android:layout_gravity="center_horizontal"
+        android:autoText="true" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="140dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/dealer_hand"
@@ -46,7 +55,8 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/layer1">
+        android:id="@+id/layer1"
+        android:layout_gravity="center_horizontal">
 
         <Button
             android:layout_width="wrap_content"
