@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="#ff008c00"
-    android:id="@+id/">
+    android:id="@+id/ll">
 
     <LinearLayout
         android:orientation="vertical"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:measureWithLargestChild="false"
         android:gravity="center_horizontal"
-        android:id="@+id/">
+        android:id="@+id/lll">
 
         <TextView
             android:layout_width="wrap_content"
