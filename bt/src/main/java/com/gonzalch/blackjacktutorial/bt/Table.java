@@ -8,11 +8,11 @@ import android.util.Log;
 
 public class Table {
     public static Table classAInstance = new Table();
-    private static final String TAG = "TableClass";
+    private static final String TAG = "Table Logic Class";
     private Dealer dealer;
     private Player player;
     private Rules rules;
-    private BlackjackGame game;
+
     private Deck deck;
     private boolean playerBusted = false;
     private boolean dealerBusted = false;
@@ -27,7 +27,7 @@ public class Table {
         player = new Player();
         deck = new Deck();
         rules = new Rules();
-        game = new BlackjackGame();
+
     }
     /*
      *  Begin a game.  Init booleans and shuffle deck and deal two cards
@@ -48,16 +48,28 @@ public class Table {
         {
             rules = new Rules();
         }
-        player.addCard(deck.dealCard());
-        dealer.addCard(deck.dealCard());
-        player.addCard(deck.dealCard());
-        dealer.addCard(deck.dealCard());
+
+        Card c = deck.dealCard();
+        Log.d(TAG, "Player was dealt a:" + c.getValueAsString() + " of " + c.getSuitAsString() + " index: " + c.getIndex());
+        player.addCard(c);
+        c = deck.dealCard();
+        Log.d(TAG, "Dealer was dealt a:" + c.getValueAsString() + " of " + c.getSuitAsString() + " index: " + c.getIndex());
+        dealer.addCard(c);
+        c = deck.dealCard();
+        Log.d(TAG, "Player was dealt a:" + c.getValueAsString() + " of " + c.getSuitAsString() + " index: " + c.getIndex());
+        player.addCard(c);
+        c = deck.dealCard();
+        Log.d(TAG, "Dealer was dealt a:" + c.getValueAsString() + " of " + c.getSuitAsString() + " index: " + c.getIndex());
+        dealer.addCard(c);
     }
 
     /*
      *  Returns the players hand as a string
      */
-    public String getPlayerHand(){
+    public Hand getPlayerHand(){
+        return player.getHand();
+    }
+    public String getPlayerHandAsString(){
         return player.getHandAsString();
     }
 
@@ -71,7 +83,7 @@ public class Table {
      *  If the player has not played then only the
      *  first card is displayed to the player.
      */
-    public String getDealerHand(){
+    public String getDealerHandAsString(){
         String hand = dealer.getHandAsString();
         Log.d(TAG, "Dealer hand: " + hand);
 
@@ -79,6 +91,9 @@ public class Table {
             return hand.substring(0,3);
         }
         return hand;
+    }
+    public Hand getDealerHand(){
+        return dealer.getHand();
     }
 
     /*
@@ -118,7 +133,12 @@ public class Table {
      */
     public void playerHit()
     {
-        player.addCard(deck.dealCard());
+        Card c = deck.dealCard();
+        Log.d(TAG, "Player was dealt a:" + c.getValueAsString() + " of " + c.getSuitAsString() + " index: " + c.getIndex());
+        player.addCard(c);
+
+
+
         if(player.getHandTotal() > 21)
         {
             revealDealer = true;
@@ -143,7 +163,9 @@ public class Table {
         revealDealer = true;
         if(rules.dealerHitsOnSoft17 & dealer.getHandTotal() < 18) {
             while (dealer.getHandTotal() < 18) {
-                dealer.addCard(deck.dealCard());
+                Card c = deck.dealCard();
+                Log.d(TAG, "Dealer was dealt a:" + c.getValueAsString() + " of " + c.getSuitAsString() + " index: " + c.getIndex());
+                dealer.addCard(c);
             }
         }
         else
@@ -151,7 +173,9 @@ public class Table {
             if(dealer.getHandTotal() < 17)
             {
                 while (dealer.getHandTotal() < 17) {
-                    dealer.addCard(deck.dealCard());
+                    Card c = deck.dealCard();
+                    Log.d(TAG, "Dealer was dealt a:" + c.getValueAsString() + " of " + c.getSuitAsString() + " index: " + c.getIndex());
+                    dealer.addCard(c);
                 }
             }
         }
@@ -188,9 +212,6 @@ public class Table {
     }
 
 
-
-
-
     /*
      *  Reset the state of the game.  Currently reshuffles
      *  the deck every time.
@@ -203,9 +224,14 @@ public class Table {
         if( deck != null) {deck = null;}
     }
 
+    public int getPlayersHandSize(){
+        return player.getCardCount();
+    }
 
 
-
+    public int getDealersHandSize(){
+        return dealer.getCardCount();
+    }
 
 
 /* ******************************************
@@ -274,5 +300,6 @@ public class Table {
         }
         return false;
     }
-
+    public boolean getRevealDealer()
+    { return revealDealer; }
 }

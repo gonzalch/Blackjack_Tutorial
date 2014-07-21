@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gonzalch.blackjacktutorial.bt.BlackjackGame;
 import com.gonzalch.blackjacktutorial.bt.BlackjackHand;
 import com.gonzalch.blackjacktutorial.bt.Deck;
 import com.gonzalch.blackjacktutorial.bt.R;
@@ -167,11 +166,10 @@ public class MainActivity extends ActionBarActivity {
      */
     private void refresh()
     {
-
         mDealersTotalText.setText(Table.classAInstance.getDealersTotalAsString());
-        mDealerHandText.setText(Table.classAInstance.getDealerHand());
+        mDealerHandText.setText(Table.classAInstance.getDealerHandAsString());
         mPlayerTotalText.setText(Table.classAInstance.getPlayersTotalAsString());
-        mPlayerHandText.setText(Table.classAInstance.getPlayerHand());
+        mPlayerHandText.setText(Table.classAInstance.getPlayerHandAsString());
         mDealButton.setEnabled(!Table.classAInstance.isGameInProgress());
         mHitButton.setEnabled(Table.classAInstance.isGameInProgress());
         mStandButton.setEnabled(Table.classAInstance.isGameInProgress());

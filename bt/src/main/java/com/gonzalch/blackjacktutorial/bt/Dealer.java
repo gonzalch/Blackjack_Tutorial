@@ -73,4 +73,6 @@ public class Dealer extends Player {
         currentHand = null;
     }
 
+    public int getCardCount(){ return currentHand.getCardCount(); }
+
 }

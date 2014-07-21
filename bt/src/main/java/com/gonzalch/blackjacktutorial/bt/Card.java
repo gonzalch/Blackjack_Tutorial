@@ -38,11 +38,11 @@ public class Card {
 
         switch ( (index + 1) % 13 )
         {
-            case 1:                 value=11; break;
-            case 11:      value=10; break;
-            case 12:      value=10; break;
-            case 0:      value=10; break;
-            default:                value = theValue; break;
+            case 1:     value=11; break;
+            case 11:    value=10; break;
+            case 12:    value=10; break;
+            case 0:     value=10; break;
+            default:    value = theValue; break;
         }
 
     }
