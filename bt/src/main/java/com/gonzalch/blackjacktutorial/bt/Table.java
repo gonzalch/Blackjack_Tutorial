@@ -113,7 +113,7 @@ public class Table {
      *  to split.
      */
     public boolean canPlayerSplit(){
-        if(player.getCardCount() != 2){
+        if(player.getCardCount() != 2 | !gameInProgress){
             return false;
         }
 
