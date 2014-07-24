@@ -18,6 +18,7 @@ public class Table {
     private boolean dealerBusted = false;
     private boolean revealDealer = false;
     private boolean gameInProgress = false;
+    private boolean playerHasSplit = false;
 
     /*
      * Default constuctor.
@@ -300,6 +301,23 @@ public class Table {
         }
         return false;
     }
+
+    public void playerSplit(){
+        playerHasSplit = true;
+        Card c1 = deck.dealCard();
+        Card c2 = deck.dealCard();
+
+        Log.d(TAG, "Player split hand 1 got: " + c1.getValueAsString() + " of " + c1.getSuitAsString() + " index: " + c1.getIndex());
+        Log.d(TAG, "Player split hand 2 got: " + c2.getValueAsString() + " of " + c2.getSuitAsString() + " index: " + c2.getIndex());
+
+        player.splitHand(c1, c2);
+
+    }
+
+    public boolean hasPlayerSplit(){ return playerHasSplit; }
+
+    public Hand getPlayersSplitHand(){ return player.getPlayersSplitHand(); }
+
     public boolean getRevealDealer()
     { return revealDealer; }
 }

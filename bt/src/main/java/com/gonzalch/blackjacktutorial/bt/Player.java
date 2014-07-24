@@ -13,10 +13,12 @@ public class Player {
     public static Player classAInstance = new Player();
     private Bankroll currentBankroll;
     private Hand currentHand;
+    private Vector splitHands;
 
     public Player(){
         currentBankroll = new Bankroll();
         currentHand = new Hand();
+        splitHands = new Vector();
     }
 
     public String getHandAsString(){
@@ -61,5 +63,23 @@ public class Player {
     public void removeHand()
     {
         currentHand = null;
+    }
+
+    public void splitHand(Card c1, Card c2){
+        Hand hand1 = new Hand();
+        Hand hand2 = new Hand();
+
+        hand1.addCard(currentHand.getCard(0));
+        hand1.addCard(c1);
+
+        hand2.addCard(currentHand.getCard(1));
+        hand2.addCard(c2);
+
+        currentHand = hand1;
+        splitHands.add(hand2);
+    }
+
+    public Hand getPlayersSplitHand(){
+        return (Hand) splitHands.elementAt(0);
     }
 }
