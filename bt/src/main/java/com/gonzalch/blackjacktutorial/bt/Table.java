@@ -12,6 +12,7 @@ public class Table {
     private Dealer dealer;
     private Player player;
     private Rules rules;
+    private int currentBetTotal = 0;
 
     private Deck deck;
     private boolean playerBusted = false;
@@ -49,6 +50,9 @@ public class Table {
         {
             rules = new Rules();
         }
+
+        // Place players bet which subtracts it from the bankroll.
+        playerBet();
 
         Card c = deck.dealCard();
         Log.d(TAG, "Player was dealt a:" + c.getValueAsString() + " of " + c.getSuitAsString() + " index: " + c.getIndex());
@@ -145,6 +149,7 @@ public class Table {
             revealDealer = true;
             playerBusted = true;
             gameInProgress = false;
+            currentBetTotal = 0;
         }
     }
 
@@ -209,7 +214,12 @@ public class Table {
             return  Integer.toString(dealer.getHandTotal());
         }
         Hand h = dealer.getHand();
-        return Integer.toString(h.getCard(0).getValue());
+        if (h.getCard(0) != null) {
+            return Integer.toString(h.getCard(0).getValue());
+        }
+        else {
+            return "0";
+        }
     }
 
 
@@ -247,6 +257,8 @@ public class Table {
         if( player.hasBlackjack() )
         {
             gameInProgress = false;
+            player.modifyBankroll(currentBetTotal*2, true);
+            currentBetTotal = 0;
             return true;
         }
         return false;
@@ -261,6 +273,7 @@ public class Table {
         {
             gameInProgress = false;
             revealDealer = true;
+            currentBetTotal = 0;
             return true;
         }
         return false;
@@ -273,6 +286,8 @@ public class Table {
     {
         if(player.getHandTotal() == dealer.getHandTotal())
         {
+            player.modifyBankroll(currentBetTotal, true);
+            currentBetTotal = 0;
             return true;
         }
         return false;
@@ -291,14 +306,19 @@ public class Table {
             {
                 if( player.getHandTotal() > dealer.getHandTotal()  )
                 {
+                    player.modifyBankroll(currentBetTotal*2, true);
+                    currentBetTotal = 0;
                     return true;
                 }
             }
             else
             {
+                player.modifyBankroll(currentBetTotal*2, true);
+                currentBetTotal = 0;
                 return true;
             }
         }
+        currentBetTotal = 0;
         return false;
     }
 
@@ -320,4 +340,20 @@ public class Table {
 
     public boolean getRevealDealer()
     { return revealDealer; }
+
+    public float getPlayerBankroll() {
+        return player.getBankroll();
+    }
+
+    public float getCurrentBetTotal() {
+        return currentBetTotal;
+    }
+
+    public void increaseCurrentBetTotal(int bet) {
+        currentBetTotal = currentBetTotal + bet;
+    }
+
+    public void playerBet() {
+        player.modifyBankroll(currentBetTotal, false);
+    }
 }

@@ -82,4 +82,19 @@ public class Player {
     public Hand getPlayersSplitHand(){
         return (Hand) splitHands.elementAt(0);
     }
+
+    public float getBankroll() {
+        return currentBankroll.getMoney();
+    }
+
+    public void modifyBankroll(float bet, boolean sign) {
+        if (sign) {
+            currentBankroll.setMoney(currentBankroll.getMoney() + bet);
+        }
+        else if (bet <= currentBankroll.getMoney()) {
+            currentBankroll.setMoney(currentBankroll.getMoney() - bet);
+        }
+
+        //else player is fucked
+    }
 }

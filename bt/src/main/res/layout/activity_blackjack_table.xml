@@ -21,7 +21,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -30,8 +30,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
                 android:text="0"
-                android:id="@+id/textView3" />
+                android:id="@+id/player_bet_total" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="0"
+                android:id="@+id/player_bankroll" />
         </LinearLayout>
 
         <LinearLayout
@@ -45,35 +53,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="5"
-                android:id="@+id/button6" />
+                android:id="@+id/bet_five_button" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10"
-                android:id="@+id/button7" />
+                android:id="@+id/bet_ten_button" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="25"
-                android:id="@+id/button8" />
+                android:id="@+id/bet_twenty_five_button" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="50"
-                android:id="@+id/button9" />
+                android:id="@+id/bet_fifty_button" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100"
-                android:id="@+id/button10" />
+                android:id="@+id/bet_hundred_button" />
 
         </LinearLayout>
 

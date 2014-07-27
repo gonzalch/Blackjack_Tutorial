@@ -14,6 +14,12 @@
         revision="19.1.0"
         sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
     <item
+        dex="/Users/chrisgonzalez/Documents/Android/Blackjack_Tutorial_new/bt/build/intermediates/pre-dexed/debug/classes-b600f64a6801aa3df29e563418bf0e7acd6f54c8.jar"
+        jar="/Users/chrisgonzalez/Documents/Android/Blackjack_Tutorial_new/bt/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+    <item
         dex="/Users/chrisgonzalez/libGDX/BlackjackTutorial/bt/build/intermediates/pre-dexed/debug/support-v4-19.1.0-fe930dc68beb1e566675ce71b270d4091c6c249b.jar"
         jar="/Applications/Android Studio.app/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
         jumboMode="false"

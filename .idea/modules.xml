@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Blackjack.iml" filepath="$PROJECT_DIR$/Blackjack.iml" />
       <module fileurl="file://$PROJECT_DIR$/BlackjackTutorial.iml" filepath="$PROJECT_DIR$/BlackjackTutorial.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Blackjack_Tutorial.iml" filepath="$PROJECT_DIR$/Blackjack_Tutorial.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Blackjack_Tutorial_new.iml" filepath="$PROJECT_DIR$/Blackjack_Tutorial_new.iml" />
       <module fileurl="file://$PROJECT_DIR$/bt/bt.iml" filepath="$PROJECT_DIR$/bt/bt.iml" />
     </modules>
   </component>

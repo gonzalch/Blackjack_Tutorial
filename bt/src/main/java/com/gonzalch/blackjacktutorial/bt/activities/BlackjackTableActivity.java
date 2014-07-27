@@ -46,6 +46,16 @@ public class BlackjackTableActivity extends ActionBarActivity {
     private Button mSplitButton;
     private Button mDoubleButton;
 
+    /**********************CHIP BUTTONS**********************/
+    private Button mBetFiveButton;
+    private Button mBetTenButton;
+    private Button mBetTwentyFiveButton;
+    private Button mBetFiftyButton;
+    private Button mBetHundredButton;
+
+    private TextView mPlayerBankroll;
+    private TextView mPlayerBetTotal;
+
     private House house;
 
     @Override
@@ -67,6 +77,16 @@ public class BlackjackTableActivity extends ActionBarActivity {
         mDoubleButton = (Button) findViewById(R.id.double_button);
         mSplitButton = (Button) findViewById(R.id.split_button);
 
+        mBetFiveButton = (Button) findViewById(R.id.bet_five_button);
+        mBetTenButton = (Button) findViewById(R.id.bet_ten_button);
+        mBetTwentyFiveButton = (Button) findViewById(R.id.bet_twenty_five_button);
+        mBetFiftyButton = (Button) findViewById(R.id.bet_fifty_button);
+        mBetHundredButton = (Button) findViewById(R.id.bet_hundred_button);
+
+        mPlayerBankroll = (TextView) findViewById(R.id.player_bankroll);
+        mPlayerBetTotal = (TextView) findViewById(R.id.player_bet_total);
+
+        mPlayerBankroll.setText(String.valueOf(Table.classAInstance.getPlayerBankroll()));
 
         mHitButton.setEnabled(false);
         mStandButton.setEnabled(false);
@@ -140,6 +160,47 @@ public class BlackjackTableActivity extends ActionBarActivity {
             }
         });
 
+        mBetFiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Table.classAInstance.increaseCurrentBetTotal(5);
+                refresh();
+            }
+        });
+
+
+        mBetTenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Table.classAInstance.increaseCurrentBetTotal(10);
+                refresh();
+            }
+        });
+
+        mBetTwentyFiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Table.classAInstance.increaseCurrentBetTotal(25);
+                refresh();
+            }
+        });
+
+        mBetFiftyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Table.classAInstance.increaseCurrentBetTotal(50);
+                refresh();
+            }
+        });
+
+        mBetHundredButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Table.classAInstance.increaseCurrentBetTotal(100);
+                refresh();
+            }
+        });
+
 
         setContentView(mBackgroundFrame);
     }
@@ -173,9 +234,17 @@ public class BlackjackTableActivity extends ActionBarActivity {
         mStandButton.setEnabled(Table.classAInstance.isGameInProgress());
         mDoubleButton.setEnabled(Table.classAInstance.canPlayerDouble());
         mSplitButton.setEnabled(Table.classAInstance.canPlayerSplit());
+        mBetFiveButton.setEnabled(!Table.classAInstance.isGameInProgress());
+        mBetTenButton.setEnabled(!Table.classAInstance.isGameInProgress());
+        mBetTwentyFiveButton.setEnabled(!Table.classAInstance.isGameInProgress());
+        mBetFiftyButton.setEnabled(!Table.classAInstance.isGameInProgress());
+        mBetHundredButton.setEnabled(!Table.classAInstance.isGameInProgress());
+
         mBlackjackTableView.setRevealDealer(Table.classAInstance.getRevealDealer());
         mBlackjackTableView.setDealerTotal(Table.classAInstance.getDealersTotalAsString());
         mBlackjackTableView.setPlayerTotal(Table.classAInstance.getPlayersTotalAsString());
+        mPlayerBankroll.setText(String.valueOf(Table.classAInstance.getPlayerBankroll()));
+        mPlayerBetTotal.setText(String.valueOf(Table.classAInstance.getCurrentBetTotal()));
 
         if (!Table.classAInstance.hasPlayerSplit()) {
             if (Table.classAInstance.getPlayersHandSize() > mBlackjackTableView.getPlayersHandSize()) {
@@ -257,7 +326,6 @@ public class BlackjackTableActivity extends ActionBarActivity {
             resourceIDS = new int[52];
             initResourceIDS();
 
-
             dealersCardsImages = new Vector();
             playersCardsImages = new Vector();
             playerSplitCardsImages = new Vector();
@@ -278,7 +346,6 @@ public class BlackjackTableActivity extends ActionBarActivity {
                 } else {
                     drawCards(canvas);
                 }
-
             }
         }
 
