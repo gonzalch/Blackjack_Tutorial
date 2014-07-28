@@ -125,7 +125,6 @@ public class BlackjackTableActivity extends ActionBarActivity {
                     Toast.makeText(BlackjackTableActivity.this, "Busted!", Toast.LENGTH_SHORT).show();
                     refresh();
                     mBlackjackTableView.invalidate();
-                    Table.classAInstance.reset();
                 }
             }
         });
