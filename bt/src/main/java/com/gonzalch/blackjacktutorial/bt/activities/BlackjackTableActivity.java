@@ -102,16 +102,15 @@ public class BlackjackTableActivity extends ActionBarActivity {
                 Table.classAInstance.reset();
                 Table.classAInstance.startGame();
                 mBlackjackTableView.setClearTable(true);
-                refresh();
-                mBlackjackTableView.invalidate();
+
 
                 if (Table.classAInstance.checkPlayerForBlackjack()) {
                     Toast.makeText(BlackjackTableActivity.this, "Blackjack!", Toast.LENGTH_SHORT).show();
-                    refresh();
                 } else if (Table.classAInstance.checkDealerForBlackjack()) {
                     Toast.makeText(BlackjackTableActivity.this, "You lose - dealer blackjack.", Toast.LENGTH_SHORT).show();
-                    refresh();
                 }
+
+                mBlackjackTableView.invalidate();
             }
         });
 
@@ -119,13 +118,11 @@ public class BlackjackTableActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Table.classAInstance.playerHit();
-                refresh();
-
-                if (Table.classAInstance.playerBusted()) {
+                 if (Table.classAInstance.playerBusted()) {
                     Toast.makeText(BlackjackTableActivity.this, "Busted!", Toast.LENGTH_SHORT).show();
-                    refresh();
-                    mBlackjackTableView.invalidate();
                 }
+                mBlackjackTableView.invalidate();
+
             }
         });
 
@@ -133,28 +130,26 @@ public class BlackjackTableActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Table.classAInstance.playerStands();
-                refresh();
+                if(Table.classAInstance.getRevealDealer()){
+                    if (Table.classAInstance.checkForTie()) {
+                        Toast.makeText(BlackjackTableActivity.this, "Push", Toast.LENGTH_SHORT).show();
+                    } else if (Table.classAInstance.playerWon()) {
+                        Toast.makeText(BlackjackTableActivity.this, "You win", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(BlackjackTableActivity.this, "You lose", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 mBlackjackTableView.invalidate();
 
-                if (Table.classAInstance.checkForTie()) {
-                    Toast.makeText(BlackjackTableActivity.this, "Push", Toast.LENGTH_SHORT).show();
-                    refresh();
-                } else if (Table.classAInstance.playerWon()) {
-                    Toast.makeText(BlackjackTableActivity.this, "You win", Toast.LENGTH_SHORT).show();
-                    refresh();
-                } else {
-                    Toast.makeText(BlackjackTableActivity.this, "You lose", Toast.LENGTH_SHORT).show();
-                    refresh();
-                }
             }
         });
 
         mSplitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Table.classAInstance.playerStands();
                 Table.classAInstance.playerSplit();
-                refresh();
+                mBlackjackTableView.setPlayerSplit(true);
+                mBlackjackTableView.clearPlayersHand();
                 mBlackjackTableView.invalidate();
             }
         });
@@ -163,7 +158,6 @@ public class BlackjackTableActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Table.classAInstance.increaseCurrentBetTotal(5);
-                refresh();
             }
         });
 
@@ -172,7 +166,6 @@ public class BlackjackTableActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Table.classAInstance.increaseCurrentBetTotal(10);
-                refresh();
             }
         });
 
@@ -180,7 +173,6 @@ public class BlackjackTableActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Table.classAInstance.increaseCurrentBetTotal(25);
-                refresh();
             }
         });
 
@@ -188,7 +180,6 @@ public class BlackjackTableActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Table.classAInstance.increaseCurrentBetTotal(50);
-                refresh();
             }
         });
 
@@ -196,7 +187,6 @@ public class BlackjackTableActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Table.classAInstance.increaseCurrentBetTotal(100);
-                refresh();
             }
         });
 
@@ -242,8 +232,20 @@ public class BlackjackTableActivity extends ActionBarActivity {
         mBlackjackTableView.setRevealDealer(Table.classAInstance.getRevealDealer());
         mBlackjackTableView.setDealerTotal(Table.classAInstance.getDealersTotalAsString());
         mBlackjackTableView.setPlayerTotal(Table.classAInstance.getPlayersTotalAsString());
+        mBlackjackTableView.setPlayerSplitTotal(Table.classAInstance.getPlayersSplitTotalAsString());
+        mBlackjackTableView.setPlayerSplit(Table.classAInstance.getPlayersSplit());
+
         mPlayerBankroll.setText(String.valueOf(Table.classAInstance.getPlayerBankroll()));
         mPlayerBetTotal.setText(String.valueOf(Table.classAInstance.getCurrentBetTotal()));
+
+
+        if (Table.classAInstance.getDealersHandSize() > mBlackjackTableView.getDealersHandSize()) {
+            Hand h = (Hand) Table.classAInstance.getDealerHand();
+            for (int i = mBlackjackTableView.getDealersHandSize(); i < Table.classAInstance.getDealersHandSize(); i++) {
+                Card c = h.getCard(i);
+                mBlackjackTableView.addCardToDealer(c.getIndex());
+            }
+        }
 
         if (!Table.classAInstance.hasPlayerSplit()) {
             if (Table.classAInstance.getPlayersHandSize() > mBlackjackTableView.getPlayersHandSize()) {
@@ -253,25 +255,22 @@ public class BlackjackTableActivity extends ActionBarActivity {
                     mBlackjackTableView.addCardToPlayer(c.getIndex());
                 }
             }
-            if (Table.classAInstance.getDealersHandSize() > mBlackjackTableView.getDealersHandSize()) {
-                Hand h = (Hand) Table.classAInstance.getDealerHand();
-                for (int i = mBlackjackTableView.getDealersHandSize(); i < Table.classAInstance.getDealersHandSize(); i++) {
+        }
+        else {
+            if (Table.classAInstance.getPlayersHandSize() > mBlackjackTableView.getPlayersHandSize()) {
+
+                Hand h = (Hand) Table.classAInstance.getPlayerHand();
+                for (int i = mBlackjackTableView.getPlayersHandSize(); i < Table.classAInstance.getPlayersHandSize(); i++) {
                     Card c = h.getCard(i);
-                    mBlackjackTableView.addCardToDealer(c.getIndex());
+                    mBlackjackTableView.addCardToPlayer(c.getIndex());
                 }
             }
-        } else {
-            mBlackjackTableView.setPlayerSplit(true);
-            mBlackjackTableView.clearPlayersHand();
-            Hand h = (Hand) Table.classAInstance.getPlayerHand();
-            for (int i = mBlackjackTableView.getPlayersHandSize(); i < Table.classAInstance.getPlayersHandSize(); i++) {
-                Card c = h.getCard(i);
-                mBlackjackTableView.addCardToPlayer(c.getIndex());
-            }
-            h = (Hand) Table.classAInstance.getPlayersSplitHand();
-            for (int i = 0; i < h.getCardCount(); i++) {
-                Card c = h.getCard(i);
-                mBlackjackTableView.addCardToPlayerSplitHand(c.getIndex());
+            if (Table.classAInstance.getPlayersSplitHandSize() > mBlackjackTableView.getPlayersSplitHandSize()) {
+                Hand h = (Hand) Table.classAInstance.getPlayersSplitHand();
+                for (int i = mBlackjackTableView.getPlayersSplitHandSize(); i < h.getCardCount(); i++) {
+                    Card c = h.getCard(i);
+                    mBlackjackTableView.addCardToPlayerSplitHand(c.getIndex());
+                }
             }
         }
     }
@@ -340,6 +339,7 @@ public class BlackjackTableActivity extends ActionBarActivity {
                 redrawTable = false;
             } else {
                 canvas.drawColor(Color.rgb(0, 140, 0));
+                refresh();
                 if (playerSplit) {
                     drawCardsWithSplit(canvas);
                 } else {
@@ -418,8 +418,8 @@ public class BlackjackTableActivity extends ActionBarActivity {
                 canvas.drawText(dealerTotal, (screenWidth / 3) - screenWidth / 10, (screenHeight / 8) + screenHeight / 30, paint);
             }
 
-            for (int i = 0; i < playersCardsImages.size(); i++) {
-                Drawable c = (Drawable) playersCardsImages.elementAt(i);
+            for (int i = 0; i < playerSplitCardsImages.size(); i++) {
+                Drawable c = (Drawable) playerSplitCardsImages.elementAt(i);
                 int left = (screenWidth / 6) + (i * (cardWidth / 5));
                 int top = (int) ((screenHeight / 8) * 3.5);
                 int right = ((screenWidth / 6) + cardWidth) + (i * (cardWidth / 5));
@@ -427,14 +427,14 @@ public class BlackjackTableActivity extends ActionBarActivity {
                 c.setBounds(left, top, right, bottom);
                 c.draw(canvas);
             }
-            if (playersCardsImages.size() != 0) {
+            if (playerSplitCardsImages.size() != 0) {
                 Paint paint = new Paint();
                 paint.setColor(Color.BLACK);
                 paint.setTextSize(35);
-                canvas.drawText(playerTotal, (screenWidth / 6) - screenWidth / 10, (int) ((screenHeight / 8) * 3.5) + screenHeight / 30, paint);
+                canvas.drawText(playerSplitTotal, (screenWidth / 6) - screenWidth / 10, (int) ((screenHeight / 8) * 3.5) + screenHeight / 30, paint);
             }
-            for (int i = 0; i < playerSplitCardsImages.size(); i++) {
-                Drawable c = (Drawable) playerSplitCardsImages.elementAt(i);
+            for (int i = 0; i < playersCardsImages.size(); i++) {
+                Drawable c = (Drawable) playersCardsImages.elementAt(i);
                 int left = ((screenWidth / 6) * 4) + (i * (cardWidth / 5));
                 int top = (int) ((screenHeight / 8) * 3.5);
                 int right = (((screenWidth / 6) * 4) + cardWidth) + (i * (cardWidth / 5));
@@ -442,7 +442,7 @@ public class BlackjackTableActivity extends ActionBarActivity {
                 c.setBounds(left, top, right, bottom);
                 c.draw(canvas);
             }
-            if (playerSplitCardsImages.size() != 0) {
+            if (playersCardsImages.size() != 0) {
                 Paint paint = new Paint();
                 paint.setColor(Color.BLACK);
                 paint.setTextSize(35);
@@ -454,6 +454,9 @@ public class BlackjackTableActivity extends ActionBarActivity {
             canvas.drawColor(Color.rgb(0, 140, 0));
             dealersCardsImages.clear();
             playersCardsImages.clear();
+            playerSplitCardsImages.clear();
+
+
         }
 
         public void addCardToDealer(int card) {
@@ -487,6 +490,10 @@ public class BlackjackTableActivity extends ActionBarActivity {
             return playersCardsImages.size();
         }
 
+        public int getPlayersSplitHandSize() {
+            return playerSplitCardsImages.size();
+        }
+
         public int getDealersHandSize() {
             return dealersCardsImages.size();
         }
@@ -510,6 +517,10 @@ public class BlackjackTableActivity extends ActionBarActivity {
 
         public void setPlayerTotal(String total) {
             playerTotal = total;
+        }
+
+        public void setPlayerSplitTotal(String total) {
+            playerSplitTotal = total;
         }
 
         public void setPlayerSplit(boolean b) {
