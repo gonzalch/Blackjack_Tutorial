@@ -149,6 +149,27 @@ public class BlackjackTableActivity extends ActionBarActivity {
             }
         });
 
+
+        mDoubleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Table.classAInstance.playerDouble();
+                refresh();
+                mBlackjackTableView.invalidate();
+
+                if (Table.classAInstance.checkForTie()) {
+                    Toast.makeText(BlackjackTableActivity.this, "Push", Toast.LENGTH_SHORT).show();
+                    refresh();
+                } else if (Table.classAInstance.playerWon()) {
+                    Toast.makeText(BlackjackTableActivity.this, "You win", Toast.LENGTH_SHORT).show();
+                    refresh();
+                } else {
+                    Toast.makeText(BlackjackTableActivity.this, "You lose", Toast.LENGTH_SHORT).show();
+                    refresh();
+                }
+            }
+        });
+
         mSplitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,6 +179,7 @@ public class BlackjackTableActivity extends ActionBarActivity {
                 mBlackjackTableView.invalidate();
             }
         });
+
 
         mBetFiveButton.setOnClickListener(new View.OnClickListener() {
             @Override

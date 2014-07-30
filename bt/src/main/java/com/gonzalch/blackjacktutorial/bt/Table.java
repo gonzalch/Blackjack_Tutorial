@@ -102,19 +102,21 @@ public class Table {
     }
 
     /*
-     *  Determins if the player has not yet hit and able to double down.
+     *  Determines if the player has not yet hit and able to double down.
      */
     public boolean canPlayerDouble(){
-        if(player.getCardCount() == 2 & gameInProgress){
+        if((player.getCardCount() == 2) && (player.getBankroll() >= currentBetTotal) && gameInProgress){
+            Log.d(TAG, "player can double");
             return true;
         }
         else{
+            Log.d(TAG, "Bankroll - " + String.valueOf(player.getBankroll()) + " bet - " + currentBetTotal);
             return false;
         }
     }
 
     /*
-     *  Method to determin if the player has two cards of the same value, allowing the player
+     *  Method to determine if the player has two cards of the same value, allowing the player
      *  to split.
      */
     public boolean canPlayerSplit(){
@@ -191,6 +193,17 @@ public class Table {
         }
 
         gameInProgress = false;
+    }
+
+    /*
+     *  Method called when player doubles down. Player hits one final time and then dealer begins his turn.
+     *  After method is complete game is over.
+     */
+    public void playerDouble() {
+        playerBet();
+        currentBetTotal+=currentBetTotal;
+        playerHit();
+        playerStands();
     }
 
     /*
