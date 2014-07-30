@@ -180,6 +180,7 @@ public class BlackjackTableActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Table.classAInstance.increaseCurrentBetTotal(5);
+                mBlackjackTableView.invalidate();
             }
         });
 
@@ -188,6 +189,7 @@ public class BlackjackTableActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Table.classAInstance.increaseCurrentBetTotal(10);
+                mBlackjackTableView.invalidate();
             }
         });
 
@@ -195,6 +197,7 @@ public class BlackjackTableActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Table.classAInstance.increaseCurrentBetTotal(25);
+                mBlackjackTableView.invalidate();
             }
         });
 
@@ -202,6 +205,7 @@ public class BlackjackTableActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Table.classAInstance.increaseCurrentBetTotal(50);
+                mBlackjackTableView.invalidate();
             }
         });
 
@@ -209,6 +213,7 @@ public class BlackjackTableActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Table.classAInstance.increaseCurrentBetTotal(100);
+                mBlackjackTableView.invalidate();
             }
         });
 
