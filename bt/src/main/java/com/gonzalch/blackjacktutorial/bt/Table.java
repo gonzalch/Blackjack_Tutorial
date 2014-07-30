@@ -20,6 +20,7 @@ public class Table {
     private boolean revealDealer = false;
     private boolean gameInProgress = false;
     private boolean playerHasSplit = false;
+    private boolean playerSplitStandOrBust = false;
 
     /*
      * Default constuctor.
@@ -142,16 +143,42 @@ public class Table {
     {
         Card c = deck.dealCard();
         Log.d(TAG, "Player was dealt a:" + c.getValueAsString() + " of " + c.getSuitAsString() + " index: " + c.getIndex());
-        player.addCard(c);
 
 
-
-        if(player.getHandTotal() > 21)
+        if( player.getPlayersSplitHand() != null)
         {
-            revealDealer = true;
-            playerBusted = true;
-            gameInProgress = false;
-            currentBetTotal = 0;
+            //if the player split and has stood or busted on the first hand.
+            if( playerSplitStandOrBust ){
+                player.addCardToSplit(c);
+                if(player.getSplitHandTotal() > 21)
+                {
+                    revealDealer = true;
+                    playerBusted = true;
+                    gameInProgress = false;
+                    currentBetTotal = 0;
+                }
+            }
+            else{
+                player.addCard(c);
+                if(player.getHandTotal() > 21)
+                {
+                    revealDealer = false;
+                    playerBusted = true;
+                    gameInProgress = true;
+                    currentBetTotal = 0;
+                    playerSplitStandOrBust = true;
+                }
+            }
+        }
+        else{
+            player.addCard(c);
+            if(player.getHandTotal() > 21)
+            {
+                revealDealer = true;
+                playerBusted = true;
+                gameInProgress = false;
+                currentBetTotal = 0;
+            }
         }
     }
 
@@ -168,32 +195,41 @@ public class Table {
      */
     public void playerStands()
     {
-        revealDealer = true;
-        if(rules.dealerHitsOnSoft17 & dealer.getHandTotal() < 18) {
-            while (dealer.getHandTotal() < 18) {
-                Card c = deck.dealCard();
-                Log.d(TAG, "Dealer was dealt a:" + c.getValueAsString() + " of " + c.getSuitAsString() + " index: " + c.getIndex());
-                dealer.addCard(c);
-            }
-        }
-        else
+        if(!playerHasSplit | (playerHasSplit & playerSplitStandOrBust) )
         {
-            if(dealer.getHandTotal() < 17)
-            {
-                while (dealer.getHandTotal() < 17) {
+
+            revealDealer = true;
+            if(rules.dealerHitsOnSoft17 & dealer.getHandTotal() < 18) {
+                while (dealer.getHandTotal() < 18) {
                     Card c = deck.dealCard();
                     Log.d(TAG, "Dealer was dealt a:" + c.getValueAsString() + " of " + c.getSuitAsString() + " index: " + c.getIndex());
                     dealer.addCard(c);
                 }
             }
-        }
-        if( dealer.getHandTotal() > 21 )
-        {
-            dealerBusted = true;
-        }
+            else
+            {
+                if(dealer.getHandTotal() < 17)
+                {
+                    while (dealer.getHandTotal() < 17) {
+                        Card c = deck.dealCard();
+                        Log.d(TAG, "Dealer was dealt a:" + c.getValueAsString() + " of " + c.getSuitAsString() + " index: " + c.getIndex());
+                        dealer.addCard(c);
+                    }
+                }
+            }
+            if( dealer.getHandTotal() > 21 )
+            {
+                dealerBusted = true;
+            }
 
-        gameInProgress = false;
+            gameInProgress = false;
+        }
+        if( playerHasSplit ){
+            playerSplitStandOrBust = true;
+
+        }
     }
+
 
     /*
      *  Method called when player doubles down. Player hits one final time and then dealer begins his turn.
@@ -214,6 +250,15 @@ public class Table {
         return Integer.toString(player.getHandTotal());
     }
 
+    public String getPlayersSplitTotalAsString()
+    {
+        return Integer.toString(player.getSplitHandTotal());
+    }
+
+    public boolean getPlayersSplit()
+    {
+        return playerHasSplit;
+    }
 
     /*
      *  Returns the dealers hand total as a string.
@@ -242,7 +287,12 @@ public class Table {
      */
     public void reset()
     {
+    playerBusted = false;
+        dealerBusted = false;
+        revealDealer = false;
         gameInProgress = false;
+        playerHasSplit = false;
+        playerSplitStandOrBust = false;
         if( player.getHand() != null) {player.removeHand();}
         if( dealer.getHand() != null) {dealer.removeHand();}
         if( deck != null) {deck = null;}
@@ -252,6 +302,9 @@ public class Table {
         return player.getCardCount();
     }
 
+    public int getPlayersSplitHandSize(){
+        return player.getSplitCardCount();
+    }
 
     public int getDealersHandSize(){
         return dealer.getCardCount();
@@ -270,6 +323,7 @@ public class Table {
         if( player.hasBlackjack() )
         {
             gameInProgress = false;
+            revealDealer = true;
             player.modifyBankroll(currentBetTotal*2, true);
             currentBetTotal = 0;
             return true;
@@ -287,6 +341,7 @@ public class Table {
             gameInProgress = false;
             revealDealer = true;
             currentBetTotal = 0;
+
             return true;
         }
         return false;

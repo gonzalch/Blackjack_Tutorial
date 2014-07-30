@@ -13,12 +13,12 @@ public class Player {
     public static Player classAInstance = new Player();
     private Bankroll currentBankroll;
     private Hand currentHand;
-    private Vector splitHands;
+    private Hand splitHand;
 
     public Player(){
         currentBankroll = new Bankroll();
         currentHand = new Hand();
-        splitHands = new Vector();
+//        splitHand = new Hand();
     }
 
     public String getHandAsString(){
@@ -33,8 +33,18 @@ public class Player {
         currentHand.addCard(c);
     }
 
+    public void addCardToSplit(Card c){
+        if (splitHand != null){
+            splitHand.addCard(c);
+        }
+    }
+
     public int getCardCount(){
         return currentHand.getCardCount();
+    }
+
+    public int getSplitCardCount(){
+        return splitHand.getCardCount();
     }
 
     public Hand getHand(){
@@ -46,6 +56,14 @@ public class Player {
     public int getHandTotal()
     {
         return currentHand.getHandValue();
+    }
+
+    public int getSplitHandTotal()
+    {
+        if (splitHand != null) {
+            return splitHand.getHandValue();
+        }
+        return 0;
     }
 
     public boolean hasBlackjack()
@@ -63,6 +81,10 @@ public class Player {
     public void removeHand()
     {
         currentHand = null;
+
+        if (splitHand != null){
+            splitHand = null;
+        }
     }
 
     public void splitHand(Card c1, Card c2){
@@ -76,11 +98,11 @@ public class Player {
         hand2.addCard(c2);
 
         currentHand = hand1;
-        splitHands.add(hand2);
+        splitHand = hand2;
     }
 
     public Hand getPlayersSplitHand(){
-        return (Hand) splitHands.elementAt(0);
+        return splitHand;
     }
 
     public float getBankroll() {
